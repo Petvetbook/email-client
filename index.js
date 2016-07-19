@@ -1,8 +1,10 @@
 var request = require('request');
 var Promise = require('promise');
+var realm = require('realm');
+
 var API, TOKEN;
 
-module.exports = {
+var MOD = {
    setup: function(api, token) {
       API = api;
       TOKEN = TOKEN;
@@ -22,3 +24,9 @@ module.exports = {
       });
    }
 }
+
+realm.module("morrr.email", function() {
+   return MOD;
+});
+
+module.exports = MOD;
