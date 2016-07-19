@@ -1,5 +1,5 @@
 var request = require('request');
-
+var Promise = require('promise');
 var API, TOKEN;
 
 module.exports = {
@@ -8,12 +8,17 @@ module.exports = {
       TOKEN = TOKEN;
    },
    send: function(data) {
-      request.post('http://' + API + "/api/send", {
-         form: data
-      }, function(e, response, body) {
-         if (e) {
-            console.log(e);
-         }
+      return new Promise(function(resolve, reject) {
+         request.post('http://' + API + "/api/send?token=" + TOKEN, {
+            form: data
+         }, function(e, response, body) {
+            if (e) {
+               return reject(e);
+            }
+            return resolve({
+               sent: true
+            });
+         });
       });
    }
 }
